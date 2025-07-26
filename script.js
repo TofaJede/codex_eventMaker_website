@@ -15,14 +15,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const message = document.getElementById('formMessage');
     form.addEventListener('submit', function(e) {
         e.preventDefault();
-        message.textContent = 'Thank you! Your message has been sent.';
+        message.textContent = 'Děkujeme! Vaše zpráva byla odeslána.';
         form.reset();
     });
 
     // Dark mode toggle
     const toggleTheme = document.getElementById('toggleTheme');
     const storedTheme = localStorage.getItem('theme');
-    if (storedTheme === 'dark') {
+    if (storedTheme === 'dark' || !storedTheme) {
         document.body.classList.add('dark-mode');
     }
     toggleTheme.addEventListener('click', () => {
