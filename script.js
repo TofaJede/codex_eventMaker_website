@@ -18,4 +18,15 @@ document.addEventListener('DOMContentLoaded', () => {
         message.textContent = 'Thank you! Your message has been sent.';
         form.reset();
     });
+
+    // Dark mode toggle
+    const toggleTheme = document.getElementById('toggleTheme');
+    const storedTheme = localStorage.getItem('theme');
+    if (storedTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+    }
+    toggleTheme.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+    });
 });
