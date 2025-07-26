@@ -38,7 +38,9 @@ document.addEventListener('DOMContentLoaded', () => {
         volumeControl.value = audio.volume;
 
         const startPlayback = () => {
+            audio.muted = true;
             audio.play().then(() => {
+                audio.muted = false;
                 toggleBtn.textContent = '⏸';
                 toggleBtn.setAttribute('aria-label', 'Pause music');
             }).catch(err => {
@@ -48,7 +50,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // attempt to autoplay and try again on first user interaction if blocked
         startPlayback();
-        document.addEventListener('click', startPlayback, { once: true });
+        document.addEventListener('click', () => {
+            if (audio.paused) startPlayback();
+        }, { once: true });
 
         toggleBtn.addEventListener('click', () => {
             if (audio.paused) {
@@ -65,5 +69,19 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // DJ name float animation is handled purely in CSS now
+    // Split DJ name into letters and apply floating animation
+    const djName = document.getElementById('djName');
+    if (djName) {
+        const text = djName.textContent.trim();
+        djName.textContent = '';
+        text.split('').forEach((char, i) => {
+            const span = document.createElement('span');
+            span.className = 'float-letter';
+            span.textContent = char;
+            span.style.animationDelay = `${i * 0.2}s`;
+            djName.appendChild(span);
+        });
+    }
+
+    // DJ name float animation is handled purely in CSS
 });
