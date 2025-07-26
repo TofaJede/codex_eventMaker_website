@@ -52,16 +52,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Wave effect on hero background
-    const hero = document.getElementById('hero');
-    if (hero) {
-        hero.addEventListener('mousemove', (e) => {
-            const wave = document.createElement('span');
-            wave.className = 'wave';
-            wave.style.left = `${e.clientX}px`;
-            wave.style.top = `${e.clientY}px`;
-            hero.appendChild(wave);
-            wave.addEventListener('animationend', () => wave.remove());
-        });
-    }
+    // DJ name float animation is handled purely in CSS now
 });
