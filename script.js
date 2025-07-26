@@ -36,17 +36,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const volumeControl = document.getElementById('volumeControl');
     if (audio && toggleBtn && volumeControl) {
         volumeControl.value = audio.volume;
-        toggleBtn.addEventListener('click', () => {
-            if (audio.paused) {
-                audio.play();
+
+        const startPlayback = () => {
+            audio.play().then(() => {
                 toggleBtn.textContent = '⏸';
                 toggleBtn.setAttribute('aria-label', 'Pause music');
+            }).catch(err => {
+                console.log('Autoplay failed:', err);
+            });
+        };
+
+        // attempt to autoplay and try again on first user interaction if blocked
+        startPlayback();
+        document.addEventListener('click', startPlayback, { once: true });
+
+        toggleBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                startPlayback();
             } else {
                 audio.pause();
                 toggleBtn.textContent = '▶';
                 toggleBtn.setAttribute('aria-label', 'Play music');
             }
         });
+
         volumeControl.addEventListener('input', () => {
             audio.volume = volumeControl.value;
         });
